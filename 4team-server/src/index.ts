@@ -1,6 +1,8 @@
 import { serve } from '@hono/node-server'
+import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { z } from 'zod'
 
 const app = new Hono()
 
@@ -13,11 +15,37 @@ app.use(
   }),
 )
 
-const routes = app.get('/api/hello', (c) => {
-  return c.json({
-    message: 'Hello from Honos!',
-  })
+const userSchema = z.object({
+  username: z.string().min(3, 'Минимум 3 символа'),
+  email: z.email('Некорректный email'),
+  age: z.number().min(18, 'Только для взрослых 18+'),
 })
+
+const routes = app
+  .post(
+    '/api/register',
+    zValidator('json', userSchema, (result, c) => {
+      if (!result.success) {
+        return c.json(
+          {
+            success: false,
+            error: result.error.issues[0].message,
+          },
+          400,
+        )
+      }
+    }),
+    (c) => {
+      const data = c.req.valid('json')
+      return c.json(
+        { success: true, message: `Пользователь ${data.username} создан` },
+        201,
+      )
+    },
+  )
+  .get('/api/hello', (c) => {
+    return c.json({ message: 'Hello from Hono!' })
+  })
 
 // Экспортируем тип именно от константы с маршрутами
 export type AppType = typeof routes

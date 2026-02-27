@@ -1,11 +1,12 @@
-
 const Home = () => {
-  return <div>
-    <main>
-      
-    </main>
-  </div>
+  return (
+    <div>
+      <main></main>
+    </div>
+  )
 }
+
+export default Home
 
 // 'use client'
 // import Image from 'next/image'

@@ -1,8 +1,30 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0b0f14;
+  --panel: #0f1720;
+  --muted: #9aa4b2;
+  --accent: #7cfae3;
+  --accent-2: #7aa2ff;
+  --accent-2-hover: #5a8bf5;
+  --ok: #65f0a7;
+  --warn: #ffce6a;
+  --danger: #ff8d8d;
+  --card: #0c1116;
+  --border: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.03);
+  --font-mono: 'Roboto Mono', monospace;
+  --font-sans: 'Inter', sans-serif;
+}
+body {
+  background-color: var(--bg);
+  font-family: var(--font-sans);
+  color: #dbe7ee;
+}
+.glass-card {
+  background: rgba(12, 17, 22, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
 }
 
 @theme inline {
@@ -14,7 +36,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #0b0f14;
     --foreground: #ededed;
   }
 }
@@ -23,4 +45,19 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0.03; /* Ваше исходное значение */
+    transform: scale(1);
+  }
+}
+
+.animate-glow {
+  animation: glow 2s ease-out forwards;
 }
